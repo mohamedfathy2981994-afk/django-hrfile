@@ -1,0 +1,171 @@
+{% load static %}
+
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استمارة مديرية الشئون الصحية - محافظة الجيزة</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            direction: rtl;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            background-color: #f0f0f0;
+        }
+        .title {
+            text-align: right;
+        }
+        .title h2 {
+            margin: 0px 0;
+            font-size: 18px;
+        }
+        .form-group {
+            margin-bottom: 0px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .form-group label {
+            text-align: right;
+        }
+        .form-group::after {
+            content: '';
+            height: 1px;
+            background-color: #000;
+            margin-right: 10px;
+        }
+        .footer {
+            margin-top: 20px;
+            display: flex;
+            margin-bottom: 50px;
+            justify-content: space-between;
+        }
+        .footer div {
+            /* flex: 1; */
+            text-align: center;
+        }
+
+
+        @media print {
+            /* Set the page size to A4 */
+            @page {
+              size: A4;
+              margin: 0;
+            }
+            
+            /* Set the container width to match the A4 paper width */
+            .container {
+              max-width: 210mm; /* A4 paper width */
+              margin: 0 auto;
+            }
+            
+            /* Adjust the font size and line height for better readability */
+            body {
+              font-size: 12pt;
+              line-height: 1.5;
+            }
+            
+            /* Remove any unnecessary elements, like the logo image */
+            .logo img {
+              display: none;
+            }
+            
+            /* Adjust the header and footer layout */
+            .header {
+              margin-bottom: 10mm;
+            }
+            .form-group {
+                margin-bottom: 2mm;
+                
+            }
+            .footer {
+              margin-top: 8mm;
+              margin-bottom: 30mm;
+            }
+          }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">
+                <h2>محافظة الجيزة</h2>
+                <h2>مديرية الشئون الصحية</h2>
+                <h2>مستشفى الوراق المركزى</h2>
+            </div>
+            <img src="{% static 'imgs/logo.jpg' %}"style=" width: 120px; ">
+            
+                
+            <div class="title">
+                <h2>Giza Governorate</h2>
+                <h2>Directorate of Health Affairs</h2>
+                <h2>Warraq Central Hospital</h2>
+            </div>
+        </div>
+        
+
+        <div class="form-group"><label>الاسم / {{ maindata.name }}</label></div>
+        <div class="form-group"><label>المؤهل / {{ maindata.deg }} </label></div>
+        <div class="form-group"><label>تاريخ التعيين / {{ maindata.work_starting_date }} </label></div>
+        <div class="form-group"><label>تاريخ استلام العمل / {{ maindata.hospital_work_starting_date }}</label></div>
+        <div class="form-group"><label>الرقم القومى /{{ maindata.natid }}</label></div>
+        <div class="form-group"><label>الدرجه المالية / {{ maindata.work_rank }} </label></div>
+        <div class="form-group"><label>الوظيفة / {{ maindata.work }}</label></div>
+        <div class="form-group"><label>تاريخ استلام النيابة للأطباء /</label></div>
+        <div class="form-group"><label>محل الاقامة / {{ maindata.addres_location }}</label></div>
+        <div class="form-group"><label>الجزاءات /</label></div>
+        <div class="form-group"><label>رقم التليفون / {{ maindata.phone }} </label></div>
+        <div class="form-group"><label>جهة العمل الاصلية /{{ maindata.frest_work_place }}</label></div>
+        <div class="form-group"><label>الانتدابات وتواريخها في حالة الندب /</label></div>
+        <div class="form-group"><label>تقارير كفاية الاداء /</label></div>
+        <div class="form-group"><label>مؤهلات اخرى /</label></div>
+        <div class="form-group"><label>الاجازات الخاصة /</label></div>
+        <div class="form-group"><label>موقف التجنيد للذكور /</label></div>
+        <div class="form-group"><label>تاريخ بداء الخدمه العسكرية /</label></div>
+        <div class="form-group"><label>تاريخ التسريح من الخدمة /</label></div>
+        <div class="form-group"><label>تاريخ حفظ الوظيفة /</label></div>
+        <div class="form-group"><label>تاريخ تحرير البيان /</label><span id="statementDate" class="date-value"></span></div>
+        <div class="form-group"><label>موجه الى /    <input type="text" id="fname" name="comname" style="font-family: 'Cairo', sans-serif; border: none; font-size: 16px;  width: 40vw;"> </label></div>
+        <div class="form-group"><label>المسطر بعاليه بيان بالحالة الوظيفية الخاصة بالسيد / {{ maindata.name }}</label></div>
+
+        <div class="footer">
+            <div>مسئول الملفات</div>
+            <div>م.ش.ع</div>
+            <div>مدير المستشفى</div>
+        </div>
+    </div>
+</body>
+<script>
+    function setCurrentDate() {
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const arabicDate = today.toLocaleDateString('ar-EG', options);
+        document.getElementById('statementDate').textContent = arabicDate;
+    }
+
+    // Call the function when the page loads
+    window.onload = setCurrentDate;
+</script>
+</html>

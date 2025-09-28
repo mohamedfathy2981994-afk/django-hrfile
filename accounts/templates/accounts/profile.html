@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .profile-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .profile-container h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-container h2:not(:first-child) {
+            font-size: 18px;
+            color: #555;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 30px;
+        }
+
+        .profile-container p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .profile-container p strong {
+            color: #333;
+        }
+
+        .main-data {
+            margin-top: 20px;
+        }
+
+        .main-data h3 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .main-data p {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .logout-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 16px;
+            text-decoration: none;
+            color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .logout-link:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* جدول الصور */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 15px;
+        }
+
+        table th {
+            background-color: #f8f8f8;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table img {
+            max-width: 150px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        table img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Overlay لعرض الصورة */
+        .img-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .img-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .img-overlay .close-btn {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        td:empty::before {
+            content: "لا توجد صورة";
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h2>مرحباً، {{ user.username }}!</h2>
+        <p>رقم الهاتف: {{ user.phone_number }}</p>
+        <p>هذه هي صفحة الملف الشخصي الخاصة بك.</p>
+
+        {% if maindata %}
+            <div class="main-data">
+                <h3>البيانات الرئيسية</h3>
+                <p><strong>الاسم:</strong> {{ maindata.name }}</p>
+                <p><strong>الرقم القومي:</strong> {{ maindata.natid }}</p>
+                <p><strong>الهاتف:</strong> {{ maindata.phone }}</p>
+                <p><strong>العنوان:</strong> {{ maindata.addres_location }}</p>
+                <p><strong>الدرجة العلمية:</strong> {{ maindata.deg }}</p>
+                <p><strong>الوظيفة:</strong> {{ maindata.work }}</p>
+                <p><strong>الدرجة الوظيفية:</strong> {{ maindata.work_rank }}</p>
+                <p><strong>جهة العمل السابقة:</strong> {{ maindata.frest_work_place }}</p>
+                <p><strong>جهة العمل الحالية:</strong> {{ maindata.carant_work_place }}</p>
+                <p><strong>تاريخ بدء العمل:</strong> {{ maindata.work_starting_date }}</p>
+                <p><strong>تاريخ بدء العمل بالمستشفى:</strong> {{ maindata.hospital_work_starting_date }}</p>
+            </div>
+        {% else %}
+            <p>لا توجد بيانات رئيسية متوفرة لهذا المستخدم.</p>
+        {% endif %}
+
+        <h2>أوراق يجب استكمالها من قبل الموظف</h2>
+        <h2>.... بيانات ستتوافر لاحقاً ....</h2>
+
+        <h2>صور الملف</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>وصف الصورة</th>
+                    <th>الصورة</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for img in maindata.fileimg_set.all %}
+                <tr>
+                    <td>{{ img.img_desc }}</td>
+                    <td>
+                        {% if img.imgs %}
+                        <img src="{{ img.imgs.url }}" alt="{{ img.img_desc }}" onclick="showOverlay(this)">
+                        {% else %}
+                        لا توجد صورة تم اضافتها لملفك بعد سيتم الانتهاء من رفع المرفقات بحلول يوم السبت الموافق 27/9/2025
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{% url 'logout' %}" class="logout-link">تسجيل الخروج</a>
+    </div>
+
+    <!-- Overlay لعرض الصورة -->
+    <div class="img-overlay" id="imgOverlay" onclick="hideOverlay()">
+        <span class="close-btn" onclick="hideOverlay()">×</span>
+        <img id="overlayImg" src="" alt="صورة">
+    </div>
+
+    <script>
+        function showOverlay(imgElement) {
+            var overlay = document.getElementById('imgOverlay');
+            var overlayImg = document.getElementById('overlayImg');
+            overlayImg.src = imgElement.src;
+            overlay.style.display = 'flex';
+        }
+
+        function hideOverlay() {
+            var overlay = document.getElementById('imgOverlay');
+            overlay.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

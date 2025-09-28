@@ -1,0 +1,182 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}{{ maindata.name }}{% endblock %}
+
+{% block content %}
+<style>
+    #maindatainfo {
+        padding: 5% 5% 5% 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .maindatainfo {
+        padding: 0% 5% 0% 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+    /* Overlay styling */
+    .overlay {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        cursor: pointer;
+    }
+    .overlay img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90%;
+        max-height: 90%;
+    }
+    .no-scroll {
+        overflow: hidden;
+    }
+    .reportmaker{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 50px;
+    }
+    .scbutton {
+        border: none;
+        font-size: 28px;
+        color: #eee;
+        padding: 16px 16px;
+        background-color: #eee;
+        border-radius: 18px;
+        margin: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .scbutton > a{
+        text-decoration: none;
+    }
+
+</style>
+
+<section id='maindatainfo'>
+    <h1>بيانات الموظف</h1>
+    <h3>{{ maindata.name }}</h3>
+    <h3>الرقم القومى: {{ maindata.natid }}</h3>
+    <h3>الهاتف: {{ maindata.phone }}</h3>
+    <h3>العنوان: {{ maindata.addres_location }}</h3>
+    <h3>المؤهل: {{ maindata.deg }}</h3>
+    <h3>العمل: {{ maindata.work }}</h3>
+    <h3>الدرجة المالية: {{ maindata.work_rank }}</h3>
+    <h3>جهة استلام العمل: {{ maindata.frest_work_place }}</h3>
+    <h3>جهة العمل الحالية: {{ maindata.carant_work_place }}</h3>
+    <h3>تاريخ التعين: {{ maindata.work_starting_date }}</h3>
+    <h3>تاريخ استلام العمل: {{ maindata.hospital_work_starting_date }}</h3>
+</section>
+
+    
+
+<section class='maindatainfo'>
+    <h1>مرفقات الملف الوظيفى</h1>
+    <br>
+    <h2>فترات الاجازات او الانقطاعات </h2>
+    <table>
+        <thead>
+            <tr>
+                <th>وصف الاجازة او الانقطاع</th>
+                <th>تاريخ البدء</th>
+                <th>تاريخ الانتهاء</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for break in maindata.breakstime_set.all %}
+            <tr>
+                <td>{{ break.breakstime_desc }}</td>
+                <td>{{ break.start_from }}</td>
+                <td>{{ break.end_from }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+
+    <h2>صور الملف</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>وصف الصورة</th>
+                <th>الصورة</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for img in maindata.fileimg_set.all %}
+            <tr>
+                <td>{{ img.img_desc }}</td>
+                <td>
+                    {% if img.imgs %}
+                    <img src="{{ img.imgs.url }}" alt="{{ img.img_desc }}" style="max-width: 200px;" onclick="showOverlay(this)">
+                    {% else %}
+                    لا توجد صورة
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class='reportmaker'>
+    <button class="scbutton">
+    <a href="{% url 'generate_html' maindata.pk %}" class="btn btn-primary">إنشاء بيان حالة </a>
+        
+    </button>
+</section>
+
+<div id="overlay" class="overlay" onclick="hideOverlay()">
+    <img id="overlay-img" src="" alt="Full Size Image">
+</div>
+
+<script>
+    function showOverlay(img) {
+        var overlay = document.getElementById("overlay");
+        var overlayImg = document.getElementById("overlay-img");
+        overlayImg.src = img.src;
+        overlay.style.display = "block";
+        document.body.classList.add("no-scroll");
+    }
+
+    function hideOverlay() {
+        var overlay = document.getElementById("overlay");
+        overlay.style.display = "none";
+        document.body.classList.remove("no-scroll");
+    }
+</script>
+
+{% endblock %}

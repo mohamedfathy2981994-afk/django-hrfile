@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            direction:rtl;
+        }
+
+        .register-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .register-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .register-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+        }
+
+        .register-container button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .register-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>تسجيل حساب جديد</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">اسم المستخدم </label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="id-num">الرقم القومى </label>
+                {{ form.natid }}
+            </div>
+            <div class="form-group">
+                <label for="phone-number">رقم الهاتف </label>
+                {{ form.phone_number }}
+            </div>
+            <div class="form-group">
+                <label for="email">الباريد الالكترونى</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label for="password1">كلمة السر </label>
+                {{ form.password1 }}
+            </div>
+            <div class="form-group">
+                <label for="password2">اكد كلمة السر</label>
+                {{ form.password2 }}
+            </div>
+            <button type="submit">التسجيل </button>
+        </form>
+    </div>
+</body>
+</html>

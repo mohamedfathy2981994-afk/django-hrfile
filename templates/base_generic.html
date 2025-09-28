@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}My Site{% endblock %}</title>
+
+</head>
+<style>
+    body{
+        direction: rtl; 
+    }
+    *{
+        box-sizing: border-box;
+        margin:0;
+        padding: 0;
+
+    }
+    header {
+        display: flex;
+        margin: 0px;
+        padding: 0%5%;
+        background-color: black;
+        color: white;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+        }
+        header ul {
+            
+            display: flex;
+            width: 30vw;
+            justify-content: flex-end;
+        }
+        header ul li {
+            list-style: none;
+            padding:0px 10px;
+           
+        }
+        header ul li a {
+            color:white;
+            text-decoration: none;
+
+
+        }
+</style>
+<body>
+    <header>
+        <h1>مستشفى الوراق المركزى</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">الصفحة الرئيسية</a></li>
+                <li><a href="{% url 'maindata-list' %}"> قائمة الملفات  </a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

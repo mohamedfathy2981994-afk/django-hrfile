@@ -1,0 +1,81 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Maindata List{% endblock %}
+
+{% block content %}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+    a {
+        color: #3498db;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    #maininfo{
+        padding:10%5%;
+    }
+</style>
+<section id='maininfo'>
+    <h1>قائمة الملفات </h1>
+    <table>
+        <thead>
+        <tr>
+            <th>الاسم</th>
+            <th> الرقم القومى</th>
+            <th>الهاتف</th>
+            <th>العنوان</th>
+            <th>المؤهل الدراسي</th>
+            <th>الوظيفة</th>
+            <th> الدرجة الوظيفية</th>
+            <th>مكان استلام العمل</th>
+            <th>الجهة الوظيفية</th>
+            <th>تاريخ  التعين</th>
+            <th>تاريخ استلام العمل </th>
+            <th>الملف الوظيفى</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for maindata in maindatas %}
+        <tr>
+            <td>{{ maindata.name }}</td>
+            <td>{{ maindata.natid }}</td>
+            <td>{{ maindata.phone }}</td>
+            <td>{{ maindata.addres_location }}</td>
+            <td>{{ maindata.deg }}</td>
+            <td>{{ maindata.work }}</td>
+            <td>{{ maindata.work_rank }}</td>
+            <td>{{ maindata.frest_work_place }}</td>
+            <td>{{ maindata.carant_work_place }}</td>
+            <td>{{ maindata.work_starting_date }}</td>
+            <td>{{ maindata.hospital_work_starting_date }}</td>
+            <td><a href="{% url 'maindata-detail' maindata.pk %}">عرض الملف </a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</section>
+{% endblock %}
