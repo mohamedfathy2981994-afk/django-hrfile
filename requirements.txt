@@ -1,0 +1,16 @@
+Django
+django-cors-headers
+django-embed-video
+django-filter
+djangorestframework
+requests
+sqlparse
+urllib3
+websocket-client
+whichcraft
+gunicorn
+whitenoise
+dj-database-url
+psycopg2-binary
+python-dotenv
+
